@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factura {{ factura.numero }}</title>
+    <style>
+        /* Estilos CSS para la factura */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .factura-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .factura-details {
+            margin-bottom: 30px;
+        }
+        .factura-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .factura-table th, .factura-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        .factura-table th {
+            background-color: #f2f2f2;
+        }
+        .factura-total {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="factura-header">
+            <h1>Factura {{ factura.numero }}</h1>
+            <p>Fecha de emisión: {{ factura.fecha_emision }}</p>
+            <p>Fecha de vencimiento: {{ factura.fecha_vencimiento }}</p>
+        </div>
+        <div class="factura-details">
+            <h2>Detalles del cliente</h2>
+            <p><strong>Cliente:</strong> {{ factura.cliente.nombre }}</p>
+            <p><strong>Dirección:</strong> {{ factura.cliente.direccion }}</p>
+            <p><strong>Teléfono:</strong> {{ factura.cliente.telefono }}</p>
+        </div>
+        <table class="factura-table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detalle in factura.detalles.all %}
+                    <tr>
+                        <td>{{ detalle.producto.nombre }}</td>
+                        <td>{{ detalle.cantidad }}</td>
+                        <td>${{ detalle.precio }}</td>
+                        <td>${{ detalle.total_linea }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="factura-total">
+            <p><strong>Total:</strong> ${{ factura.total }}</p>
+        </div>
+    </div>
+</body>
+</html>
